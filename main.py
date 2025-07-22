@@ -1,4 +1,5 @@
 from utilitaire import choixCandidats, construitProb, profit
+from mise_a_jour import mettreAjourTetSolution, miseAJourCandidats
 from config import alpha, beta, rho, Tmin, Tmax
 import numpy as np
 from visualisation import plot_progress, plot_selection
@@ -9,7 +10,7 @@ from visualisation import plot_progress, plot_selection
 obj = [(10, 25), (40, 20), (1, 15), (4, 40), (5, 50)]
 b = 15  # Capacity of the backpack
 nb_it = 10  # Number of iterations
-nbAnts = 5  # Number of ants
+nbAnts = 1  # Number of ants
 
 SbestOfAll, PbestOfAll = [], []
 n = len(obj)
@@ -36,6 +37,12 @@ for it in range(nb_it):
             S[k][candidat] = 1
             b2 -= obj[candidat][0]
             candidats.remove(candidat)
+            candidats = miseAJourCandidats(obj, candidats, b2)
+        
+
+    T = mettreAjourTetSolution(obj, T, S, PbestOfAll)
+
+
     # Evaluate all solutions for this iteration
     best_profit_this_iter = PbestOfAll
     for k in range(nbAnts):
